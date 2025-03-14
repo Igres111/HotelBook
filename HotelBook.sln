@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelBook", "HotelBook\Hote
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{E5941815-5F1F-4998-8CEF-11BCBF6697F5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{BE9E7FCE-60F8-482C-9AD9-2624973483CA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dtos", "Dtos\Dtos.csproj", "{8D69844C-7EEF-4087-BEA0-AF803FCB208F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{E5941815-5F1F-4998-8CEF-11BCBF6697F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E5941815-5F1F-4998-8CEF-11BCBF6697F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E5941815-5F1F-4998-8CEF-11BCBF6697F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE9E7FCE-60F8-482C-9AD9-2624973483CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE9E7FCE-60F8-482C-9AD9-2624973483CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE9E7FCE-60F8-482C-9AD9-2624973483CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE9E7FCE-60F8-482C-9AD9-2624973483CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D69844C-7EEF-4087-BEA0-AF803FCB208F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D69844C-7EEF-4087-BEA0-AF803FCB208F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D69844C-7EEF-4087-BEA0-AF803FCB208F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D69844C-7EEF-4087-BEA0-AF803FCB208F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
