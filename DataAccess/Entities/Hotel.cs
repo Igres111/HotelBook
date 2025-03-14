@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Entities
 {
-    public class Hotel
+    public class Hotel : BaseEntity
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Address { get; set; } = string.Empty;
         public string City { get; set; } = string.Empty;
@@ -18,8 +18,7 @@ namespace DataAccess.Entities
         public string Email { get; set; } = string.Empty;
         public string HotelImage { get; set; } = string.Empty;
         public int Rating { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
-        public DateTime? Delete { get; set; }
+        public List<Room> Rooms { get; set; } = new List<Room>();
+        public Guid RoomId { get; set; }
     }
 }
