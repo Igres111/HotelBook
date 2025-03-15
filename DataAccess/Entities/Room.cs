@@ -8,7 +8,7 @@ namespace DataAccess.Entities
         public int RoomNumber { get; set; }
         public decimal Price { get; set; }
         public string? Description { get; set; }
-        public bool IsBooked { get; set; }
+        public bool IsBooked { get; set; } = false;
         public Hotel Hotel { get; set; }
         public Guid HotelId { get; set; }
         public RoomType RoomType { get; set; }

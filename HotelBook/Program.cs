@@ -1,5 +1,7 @@
 using DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
+using Service.Implementations.HotelRepository;
+using Service.Interfaces.HotelInterfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +23,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connection);
 });
 
-
+builder.Services.AddScoped<IHotel, HotelRepo>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
