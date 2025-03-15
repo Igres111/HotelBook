@@ -82,6 +82,7 @@ namespace Service.Implementations.HotelRepository
                 Phone = hotel.Phone,
                 Email = hotel.Email,
                 HotelImage = hotel.HotelImage,
+                CreatedAt = DateTime.UtcNow
             };
             await _context.Hotels.AddAsync(newHotel);
             await _context.SaveChangesAsync();
@@ -101,6 +102,7 @@ namespace Service.Implementations.HotelRepository
             hotelToUpdate.Phone = !string.IsNullOrEmpty(hotel.Phone) ? hotel.Phone : hotelToUpdate.Phone;
             hotelToUpdate.Email = !string.IsNullOrEmpty(hotel.Email) ? hotel.Email : hotelToUpdate.Email;
             hotelToUpdate.HotelImage = !string.IsNullOrEmpty(hotel.HotelImage) ? hotel.HotelImage : hotelToUpdate.HotelImage;
+            hotelToUpdate.UpdatedAt = DateTime.UtcNow;
             await _context.SaveChangesAsync();
         }
         public async Task DeleteHotel(Guid id)
@@ -108,7 +110,7 @@ namespace Service.Implementations.HotelRepository
             var hotelToDelete = await _context.Hotels.FirstOrDefaultAsync(el => el.Id == id);
             if (hotelToDelete.Delete == null)
             {
-                hotelToDelete.Delete = DateTime.Now;
+                hotelToDelete.Delete = DateTime.UtcNow;
             }
             await _context.SaveChangesAsync();
         }

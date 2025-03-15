@@ -1,7 +1,10 @@
 using DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Service.Implementations.HotelRepository;
+using Service.Implementations.RoomRepository;
 using Service.Interfaces.HotelInterfaces;
+using Service.Interfaces.RoomInterFaces;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +27,14 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 });
 
 builder.Services.AddScoped<IHotel, HotelRepo>();
+builder.Services.AddScoped<IRoom, RoomRepo>();
+
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
