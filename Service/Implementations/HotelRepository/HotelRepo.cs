@@ -108,9 +108,12 @@ namespace Service.Implementations.HotelRepository
         public async Task DeleteHotel(Guid id)
         {
             var hotelToDelete = await _context.Hotels.FirstOrDefaultAsync(el => el.Id == id);
-            if (hotelToDelete.Delete == null)
+            if (hotelToDelete != null)
             {
-                hotelToDelete.Delete = DateTime.UtcNow;
+                if (hotelToDelete.Delete == null)
+                {
+                    hotelToDelete.Delete = DateTime.UtcNow;
+                }
             }
             await _context.SaveChangesAsync();
         }

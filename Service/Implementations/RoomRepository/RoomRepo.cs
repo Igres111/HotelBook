@@ -17,7 +17,7 @@ namespace Service.Implementations.RoomRepository
         {
             var allRooms = await _context.Rooms
                 .Where(el => el.Delete == null)
-                .Select(el => new ReceiveRoomDto() 
+                .Select(el => new ReceiveRoomDto()
                 {
                     Id = el.Id,
                     RoomNumber = el.RoomNumber,
@@ -33,34 +33,40 @@ namespace Service.Implementations.RoomRepository
         public async Task CreateRoom(CreateRoomDto room)
         {
             var hotelExists = await _context.Hotels.FirstOrDefaultAsync(el => el.Id == room.HotelId);
-            if (hotelExists.Delete != null)
+            if (hotelExists != null)
             {
-                throw new Exception("Hotel doesn't exist");
+                if (hotelExists.Delete != null)
+                {
+                    throw new Exception("Hotel doesn't exist");
+                }
+                var newRoom = new Room()
+                {
+                    Id = Guid.NewGuid(),
+                    RoomNumber = room.RoomNumber,
+                    Price = room.Price,
+                    Description = room.Description,
+                    HotelId = room.HotelId,
+                    IsBooked = room.IsBooked,
+                    RoomType = room.RoomType,
+                    CreatedAt = DateTime.UtcNow
+                };
+                hotelExists.Rooms.Add(newRoom);
+                await _context.Rooms.AddAsync(newRoom);
+                await _context.SaveChangesAsync();
             }
-            var newRoom = new Room()
-            {
-                Id = Guid.NewGuid(),
-                RoomNumber = room.RoomNumber,
-                Price = room.Price,
-                Description = room.Description,
-                HotelId = room.HotelId,
-                IsBooked = room.IsBooked,
-                RoomType = room.RoomType,
-                CreatedAt = DateTime.UtcNow
-            };
-            hotelExists.Rooms.Add(newRoom);
-            await _context.Rooms.AddAsync(newRoom);
-            await _context.SaveChangesAsync();
         }
         public async Task DeleteRoom(Guid id)
         {
             var roomToDelete = await _context.Rooms.FirstOrDefaultAsync(el => el.Id == id);
-            if(roomToDelete.Delete != null)
+            if (roomToDelete != null)
             {
-                throw new Exception("Room doesn't exist");
+                if (roomToDelete.Delete != null)
+                {
+                    throw new Exception("Room doesn't exist");
+                }
+                roomToDelete.Delete = DateTime.UtcNow;
+                await _context.SaveChangesAsync();
             }
-            roomToDelete.Delete = DateTime.UtcNow;
-            await _context.SaveChangesAsync();
         }
         public async Task UpdateRoom(UpdateRoomDto room)
         {
