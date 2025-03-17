@@ -75,7 +75,12 @@ namespace Service.Implementations.RoomRepository
             {
                 throw new Exception("Room not found");
             }
-            //Need to finish this
+            roomToUpdate.RoomNumber = room.RoomNumber ?? roomToUpdate.RoomNumber;
+            roomToUpdate.Price = room.Price ?? roomToUpdate.Price;
+            roomToUpdate.Description = !string.IsNullOrEmpty(room.Description) ? room.Description : roomToUpdate.Description;
+            roomToUpdate.IsBooked = room.IsBooked ?? roomToUpdate.IsBooked;
+            roomToUpdate.RoomType = room.RoomType ?? roomToUpdate.RoomType;
+            await _context.SaveChangesAsync();
         }
     }
 }
