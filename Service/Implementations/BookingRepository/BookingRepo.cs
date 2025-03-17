@@ -19,7 +19,7 @@ namespace Service.Implementations.BookingRepository
         {
             _context = context;
         }
-        public async Task CreateBooking(CreateSearchBookingDto info)
+        public async Task<Guid> CreateBooking(CreateSearchBookingDto info)
         {
             var newBooking = new Booking()
             {
@@ -27,7 +27,8 @@ namespace Service.Implementations.BookingRepository
                 NumberOfGuests = info.NumberOfGuests,
                 CheckIn = info.CheckIn,
                 CheckOut = info.CheckOut,
-                Destination = info.Destination,
+                DestinationCity = info.DestinationCity,
+                DestinationCountry = info.DestinationCountry,
                 GuestName = string.Empty,
                 GuestEmail = string.Empty,
                 GuestPhone = string.Empty,
@@ -35,14 +36,15 @@ namespace Service.Implementations.BookingRepository
             };
             _context.Bookings.Add(newBooking);
             await _context.SaveChangesAsync();
+            return newBooking.Id;
         }
         public async Task<List<ReceiveBookingDto>> GetBookingByDest(string destination)
         {
             var bookingList = await _context.Bookings
-                .Where(x => x.Destination == destination)
+                .Where(x => x.DestinationCity == destination)
                 .Select(x => new ReceiveBookingDto()
                 {
-                    Destination = x.Destination,
+                    Destination = x.DestinationCity,
                     GuestName = x.GuestName,
                     GuestEmail = x.GuestEmail,
                     GuestPhone = x.GuestPhone,

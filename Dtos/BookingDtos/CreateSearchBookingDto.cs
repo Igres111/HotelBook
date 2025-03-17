@@ -9,7 +9,8 @@ namespace Dtos.BookingDtos
     public class CreateSearchBookingDto
     {
         public int NumberOfGuests { get; set; }
-        public string Destination { get; set; } = string.Empty;
+        public string DestinationCountry { get; set; } = string.Empty;
+        public string DestinationCity { get; set; } = string.Empty;
         public DateTime CheckIn { get; set; }
         public DateTime CheckOut { get; set; }
     }
