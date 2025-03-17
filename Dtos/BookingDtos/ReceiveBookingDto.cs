@@ -1,6 +1,13 @@
-﻿namespace DataAccess.Entities
+﻿using DataAccess.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Dtos.BookingDtos
 {
-    public class Booking : BaseEntity
+    public class ReceiveBookingDto :BaseEntity
     {
         public Guid Id { get; set; }
         public string Destination { get; set; } = string.Empty;
@@ -10,8 +17,6 @@
         public int NumberOfGuests { get; set; }
         public DateTime CheckIn { get; set; }
         public DateTime CheckOut { get; set; }
-        public Guid? RoomId { get; set; }
-        public Room? Room { get; set; }
-
+        public Guid RoomId { get; set; }
     }
 }
