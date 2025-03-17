@@ -1,7 +1,9 @@
 using DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
+using Service.Implementations.BookingRepository;
 using Service.Implementations.HotelRepository;
 using Service.Implementations.RoomRepository;
+using Service.Interfaces.BookingInterfaces;
 using Service.Interfaces.HotelInterfaces;
 using Service.Interfaces.RoomInterFaces;
 using System.Text.Json.Serialization;
@@ -28,6 +30,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<IHotel, HotelRepo>();
 builder.Services.AddScoped<IRoom, RoomRepo>();
+builder.Services.AddScoped<IBooking, BookingRepo>();
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
