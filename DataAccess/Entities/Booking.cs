@@ -1,4 +1,7 @@
-﻿namespace DataAccess.Entities
+﻿using DataAccess.Enums;
+using static DataAccess.Enums.EnumBookingStatus;
+
+namespace DataAccess.Entities
 {
     public class Booking : BaseEntity
     {
@@ -13,6 +16,7 @@
         public DateTime CheckOut { get; set; }
         public Guid? RoomId { get; set; }
         public Room? Room { get; set; }
+        public BookingStatus BookingStatus { get; set; }
 
     }
 }

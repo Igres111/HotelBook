@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static DataAccess.Enums.EnumBookingStatus;
 
 namespace Service.Implementations.BookingRepository
 {   
@@ -33,6 +34,7 @@ namespace Service.Implementations.BookingRepository
                 GuestEmail = string.Empty,
                 GuestPhone = string.Empty,
                 CreatedAt = DateTime.Now,
+                BookingStatus = BookingStatus.Pending,
             };
             _context.Bookings.Add(newBooking);
             await _context.SaveChangesAsync();

@@ -21,6 +21,7 @@ namespace Service.Implementations.RoomRepository
                 {
                     Id = el.Id,
                     RoomNumber = el.RoomNumber,
+                    RoomCapacity = el.RoomCapacity,
                     Price = el.Price,
                     Description = el.Description,
                     HotelId = el.HotelId,
@@ -43,6 +44,7 @@ namespace Service.Implementations.RoomRepository
                 {
                     Id = Guid.NewGuid(),
                     RoomNumber = room.RoomNumber,
+                    RoomCapacity = room.RoomCapacity,
                     Price = room.Price,
                     Description = room.Description,
                     HotelId = room.HotelId,
@@ -80,6 +82,7 @@ namespace Service.Implementations.RoomRepository
             roomToUpdate.Description = !string.IsNullOrEmpty(room.Description) ? room.Description : roomToUpdate.Description;
             roomToUpdate.IsBooked = room.IsBooked ?? roomToUpdate.IsBooked;
             roomToUpdate.RoomType = room.RoomType ?? roomToUpdate.RoomType;
+            roomToUpdate.RoomCapacity = room.RoomCapacity ?? roomToUpdate.RoomCapacity;
             await _context.SaveChangesAsync();
         }
     }

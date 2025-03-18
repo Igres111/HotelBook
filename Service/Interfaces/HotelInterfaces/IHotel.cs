@@ -16,5 +16,7 @@ namespace Service.Interfaces.HotelInterfaces
         public Task CreateHotel(CreateHotelDto hotel);
         public Task UpdateHotel(UpdateHotelDto hotel);
         public Task DeleteHotel(Guid id);
+        public Task<List<ReceiveHotelDto>> FilterHotelsByBooking(Guid id);
+        public Task<List<Hotel>> GetHotelRoomsByBooking(ReceiveHotelRoomsDto id);
     }
 }

@@ -11,7 +11,8 @@ namespace Dtos.RoomDtos
     public class ReceiveRoomDto
     {
         public Guid Id { get; set; }
-        public int RoomNumber { get; set; }
+        public string RoomNumber { get; set; } = string.Empty;
+        public int RoomCapacity { get; set; }
         public decimal Price { get; set; }
         public string? Description { get; set; }
         public bool IsBooked { get; set; }

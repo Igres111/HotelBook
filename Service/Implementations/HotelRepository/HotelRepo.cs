@@ -1,9 +1,10 @@
 ﻿using DataAccess.Context;
 using DataAccess.Entities;
+using DataAccess.Enums;
 using Dtos.HotelDtos;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using Service.Interfaces.HotelInterfaces;
+using static DataAccess.Enums.EnumBookingStatus;
 
 
 namespace Service.Implementations.HotelRepository
@@ -20,18 +21,18 @@ namespace Service.Implementations.HotelRepository
             var hotels = await _context.Hotels
                 .Where(el => el.Delete == null)
                 .Select(el => new ReceiveHotelDto()
-            {
-                Id = el.Id,
-                Name = el.Name,
-                Address = el.Address,
-                City = el.City,
-                Country = el.Country,
-                PostalCode = el.PostalCode,
-                Phone = el.Phone,
-                Email = el.Email,
-                HotelImage = el.HotelImage,
-                Rating = el.Rating
-            }).ToListAsync();
+                {
+                    Id = el.Id,
+                    Name = el.Name,
+                    Address = el.Address,
+                    City = el.City,
+                    Country = el.Country,
+                    PostalCode = el.PostalCode,
+                    Phone = el.Phone,
+                    Email = el.Email,
+                    HotelImage = el.HotelImage,
+                    Rating = el.Rating
+                }).ToListAsync();
             return hotels;
         }
         public async Task<ReceiveHotelDto> GetHotelById(Guid id)
@@ -39,18 +40,18 @@ namespace Service.Implementations.HotelRepository
             var hotel = await _context.Hotels
                 .Where(el => el.Id == id && el.Delete == null)
                 .Select(x => new ReceiveHotelDto()
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Address = x.Address,
-                City = x.City,
-                Country = x.Country,
-                PostalCode = x.PostalCode,
-                Phone = x.Phone,
-                Email = x.Email,
-                HotelImage = x.HotelImage,
-                Rating = x.Rating
-            }).FirstOrDefaultAsync();
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Address = x.Address,
+                    City = x.City,
+                    Country = x.Country,
+                    PostalCode = x.PostalCode,
+                    Phone = x.Phone,
+                    Email = x.Email,
+                    HotelImage = x.HotelImage,
+                    Rating = x.Rating
+                }).FirstOrDefaultAsync();
             if (hotel == null)
             {
                 throw new Exception("Hotel not found");
@@ -116,6 +117,58 @@ namespace Service.Implementations.HotelRepository
                 }
             }
             await _context.SaveChangesAsync();
+        }
+        public async Task<List<ReceiveHotelDto>> FilterHotelsByBooking(Guid id)
+        {
+            var booking = await _context.Bookings.FirstOrDefaultAsync(el => el.Id == id);
+            if (booking == null)
+            {
+                throw new Exception("Booking not found");
+            }
+            var filteredHotels = await _context.Hotels
+       .Where(hotel =>
+           hotel.Delete == null &&
+           hotel.City.Contains(booking.DestinationCity) &&
+           hotel.Country.Contains(booking.DestinationCountry) &&
+           hotel.Rooms.Any(room =>
+               room.IsBooked == false &&
+               room.RoomCapacity >= booking.NumberOfGuests &&
+               room.Bookings.All(b =>
+                   booking.CheckOut >= b.CheckIn && booking.CheckIn <= b.CheckOut && b.BookingStatus != EnumBookingStatus.BookingStatus.Confirmed
+               )
+           )
+       ).Select(el => new ReceiveHotelDto()
+       {
+           Id = el.Id,
+           Name = el.Name,
+           Address = el.Address,
+           City = el.City,
+           Country = el.Country,
+           PostalCode = el.PostalCode,
+           Phone = el.Phone,
+           Email = el.Email,
+           HotelImage = el.HotelImage,
+           Rating = el.Rating
+       })
+       .ToListAsync();
+            if (filteredHotels == null)
+            {
+                throw new Exception("No hotels found");
+            }
+            return filteredHotels;
+    }
+        public async Task<List<Hotel>> GetHotelRoomsByBooking(ReceiveHotelRoomsDto id)
+        {
+            var booking = await _context.Bookings.FirstOrDefaultAsync(el => el.Id == id.BookingId);
+            if(booking == null)
+            {
+                throw new Exception("Booking not found");
+            }
+            var hotelRooms = await _context.Hotels
+                .Include(db => db.Rooms.Where(room => room.IsBooked == false && room.Delete == null))
+                .Where(x => x.Id == id.HotelId)
+                .ToListAsync();
+            return hotelRooms;
         }
     }
 }
