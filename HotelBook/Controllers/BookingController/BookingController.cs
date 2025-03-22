@@ -44,5 +44,22 @@ namespace HotelBook.Controllers.BookingController
                 return NotFound(ex.Message);
             }
         }
+        [HttpPost("Fulfill-Booking")]
+        public async Task<IActionResult> FulfillBooking(FulfillBookingDto info)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                await _methods.FulfillBooking(info);
+                return Ok("Booking fulfilled");
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
     }
 }

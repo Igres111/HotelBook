@@ -4,7 +4,6 @@ using DataAccess.Enums;
 using Dtos.HotelDtos;
 using Microsoft.EntityFrameworkCore;
 using Service.Interfaces.HotelInterfaces;
-using static DataAccess.Enums.EnumBookingStatus;
 
 
 namespace Service.Implementations.HotelRepository
@@ -129,14 +128,19 @@ namespace Service.Implementations.HotelRepository
        .Where(hotel =>
            hotel.Delete == null &&
            hotel.City.Contains(booking.DestinationCity) &&
-           hotel.Country.Contains(booking.DestinationCountry) &&
+           hotel.Country.Contains(booking.DestinationCountry) && 
            hotel.Rooms.Any(room =>
-               room.IsBooked == false &&
-               room.RoomCapacity >= booking.NumberOfGuests &&
-               room.Bookings.All(b =>
-                   booking.CheckOut >= b.CheckIn && booking.CheckIn <= b.CheckOut && b.BookingStatus != EnumBookingStatus.BookingStatus.Confirmed
-               )
-           )
+           room.IsBooked == false &&
+           room.Delete == null &&
+           hotel.Rooms.Any(room =>
+            room.IsBooked == false &&
+            room.Delete == null &&
+            room.Bookings.All(b =>
+                b.BookingStatus != EnumBookingStatus.BookingStatus.Confirmed ||
+                b.CheckOut <= booking.CheckIn || b.CheckIn >= booking.CheckOut
+            )
+        )
+    )
        ).Select(el => new ReceiveHotelDto()
        {
            Id = el.Id,
@@ -156,11 +160,11 @@ namespace Service.Implementations.HotelRepository
                 throw new Exception("No hotels found");
             }
             return filteredHotels;
-    }
+        }
         public async Task<List<Hotel>> GetHotelRoomsByBooking(ReceiveHotelRoomsDto id)
         {
             var booking = await _context.Bookings.FirstOrDefaultAsync(el => el.Id == id.BookingId);
-            if(booking == null)
+            if (booking == null)
             {
                 throw new Exception("Booking not found");
             }
@@ -172,3 +176,4 @@ namespace Service.Implementations.HotelRepository
         }
     }
 }
+

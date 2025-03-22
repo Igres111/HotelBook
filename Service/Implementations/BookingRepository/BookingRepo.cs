@@ -36,6 +36,7 @@ namespace Service.Implementations.BookingRepository
                 CreatedAt = DateTime.Now,
                 BookingStatus = BookingStatus.Pending,
             };
+            Console.WriteLine(newBooking.BookingStatus);
             _context.Bookings.Add(newBooking);
             await _context.SaveChangesAsync();
             return newBooking.Id;
@@ -63,6 +64,35 @@ namespace Service.Implementations.BookingRepository
                throw new Exception("No booking found");
             }
             return bookingList;
+        }
+        public async Task FulfillBooking(FulfillBookingDto info)
+        {
+            var booking = await _context.Bookings.FirstOrDefaultAsync(el => el.Id == info.BookingId);
+            if (booking == null)
+            {
+                throw new Exception("Booking not found");
+            }
+            var room = await _context.Rooms.FirstOrDefaultAsync(el => el.Id == info.RoomId);
+            if (room == null)
+            {
+                throw new Exception("Room not found");
+            }
+            booking.GuestName = info.GuestName;
+            booking.GuestEmail = info.GuestEmail;
+            booking.GuestPhone = info.GuestPhone;
+            booking.CheckIn = info.CheckIn;
+            booking.CheckOut = info.CheckOut;
+            booking.BookingStatus = BookingStatus.Confirmed;
+            if (room.Bookings != null)
+            {
+                room.Bookings.Add(booking);
+            }
+            else
+            {
+                room.Bookings = new List<Booking> { booking };
+            }
+
+                await _context.SaveChangesAsync();
         }
     }
 }
