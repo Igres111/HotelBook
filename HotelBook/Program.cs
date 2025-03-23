@@ -3,9 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Service.Implementations.BookingRepository;
 using Service.Implementations.HotelRepository;
 using Service.Implementations.RoomRepository;
+using Service.Implementations.UserRepository;
 using Service.Interfaces.BookingInterfaces;
 using Service.Interfaces.HotelInterfaces;
 using Service.Interfaces.RoomInterFaces;
+using Service.Interfaces.UserInterfaces;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,6 +33,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IHotel, HotelRepo>();
 builder.Services.AddScoped<IRoom, RoomRepo>();
 builder.Services.AddScoped<IBooking, BookingRepo>();
+builder.Services.AddScoped<IUser, UserRepo>();
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
