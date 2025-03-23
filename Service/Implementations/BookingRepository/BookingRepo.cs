@@ -1,6 +1,8 @@
 ﻿using DataAccess.Context;
 using DataAccess.Entities;
+using DataAccess.Enums;
 using Dtos.BookingDtos;
+using Dtos.HotelDtos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using Service.Interfaces.BookingInterfaces;
@@ -93,6 +95,33 @@ namespace Service.Implementations.BookingRepository
             }
 
                 await _context.SaveChangesAsync();
+        }
+        public async Task<ShowBookingDto> ShowBooking(Guid bookingId)
+        {
+            var booking = await _context.Bookings.FirstOrDefaultAsync(el => el.Id == bookingId);
+            if (booking == null)
+            {
+                throw new Exception("Booking not found");
+            }
+            var room = await _context.Rooms.FirstOrDefaultAsync(el => el.Id == booking.RoomId);
+            if (booking.RoomId == null || room == null)
+            {
+                throw new Exception("Room not found");
+            }
+            var result = new ShowBookingDto()
+            {
+                DestinationCity = booking.DestinationCity,
+                NumberOfGuests = booking.NumberOfGuests,
+                CheckIn = booking.CheckIn,
+                CheckOut = booking.CheckOut,
+                DaysLength = booking.CheckOut.DayNumber - booking.CheckIn.DayNumber,
+                RoomNumber = room.RoomNumber,
+                RoomCapacity = room.RoomCapacity,
+                Price = room.Price,
+                Description = room.Description,
+                RoomType = room.RoomType,
+            };
+            return result;
         }
     }
 }

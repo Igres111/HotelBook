@@ -61,5 +61,18 @@ namespace HotelBook.Controllers.BookingController
                 return NotFound(ex.Message);
             }
         }
+        [HttpGet("Show-Booking")]
+        public async Task<IActionResult> ShowBooking(Guid roomId)
+        {
+            try
+            {
+                var booking = await _methods.ShowBooking(roomId);
+                return Ok(booking);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
     }
 }
