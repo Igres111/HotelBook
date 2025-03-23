@@ -17,6 +17,8 @@ namespace Dtos.HotelDtos
         public string Phone { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string HotelImage { get; set; } = string.Empty;
+        public bool FreeCancellation { get; set; }
+        public bool NoPrepayment { get; set; }
         public int Rating { get; set; }
     }
 }

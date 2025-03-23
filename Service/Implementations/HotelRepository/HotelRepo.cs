@@ -30,7 +30,9 @@ namespace Service.Implementations.HotelRepository
                     Phone = el.Phone,
                     Email = el.Email,
                     HotelImage = el.HotelImage,
-                    Rating = el.Rating
+                    Rating = el.Rating,
+                    FreeCancellation = el.FreeCancellation,
+                    NoPrepayment = el.NoPrepayment
                 }).ToListAsync();
             return hotels;
         }
@@ -49,7 +51,9 @@ namespace Service.Implementations.HotelRepository
                     Phone = x.Phone,
                     Email = x.Email,
                     HotelImage = x.HotelImage,
-                    Rating = x.Rating
+                    Rating = x.Rating,
+                    FreeCancellation = x.FreeCancellation,
+                    NoPrepayment = x.NoPrepayment
                 }).FirstOrDefaultAsync();
             if (hotel == null)
             {
@@ -82,7 +86,9 @@ namespace Service.Implementations.HotelRepository
                 Phone = hotel.Phone,
                 Email = hotel.Email,
                 HotelImage = hotel.HotelImage,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                FreeCancellation = hotel.FreeCancellation,
+                NoPrepayment = hotel.NoPrepayment
             };
             await _context.Hotels.AddAsync(newHotel);
             await _context.SaveChangesAsync();
@@ -102,6 +108,8 @@ namespace Service.Implementations.HotelRepository
             hotelToUpdate.Phone = !string.IsNullOrEmpty(hotel.Phone) ? hotel.Phone : hotelToUpdate.Phone;
             hotelToUpdate.Email = !string.IsNullOrEmpty(hotel.Email) ? hotel.Email : hotelToUpdate.Email;
             hotelToUpdate.HotelImage = !string.IsNullOrEmpty(hotel.HotelImage) ? hotel.HotelImage : hotelToUpdate.HotelImage;
+            hotelToUpdate.FreeCancellation = hotel.FreeCancellation ?? hotelToUpdate.FreeCancellation;
+            hotelToUpdate.NoPrepayment = hotel.NoPrepayment ?? hotelToUpdate.NoPrepayment;
             hotelToUpdate.UpdatedAt = DateTime.UtcNow;
             await _context.SaveChangesAsync();
         }
@@ -152,7 +160,9 @@ namespace Service.Implementations.HotelRepository
            Phone = el.Phone,
            Email = el.Email,
            HotelImage = el.HotelImage,
-           Rating = el.Rating
+           Rating = el.Rating,
+           FreeCancellation = el.FreeCancellation,
+           NoPrepayment = el.NoPrepayment
        })
        .ToListAsync();
             if (filteredHotels == null)

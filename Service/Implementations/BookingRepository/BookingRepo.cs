@@ -117,10 +117,12 @@ namespace Service.Implementations.BookingRepository
                 DaysLength = booking.CheckOut.DayNumber - booking.CheckIn.DayNumber,
                 RoomNumber = room.RoomNumber,
                 RoomCapacity = room.RoomCapacity,
-                Price = room.Price,
+                Price = (decimal)(room.DiscountPrice != null ? room.DiscountPrice : room.Price),
                 Description = room.Description,
                 RoomType = room.RoomType,
+                DiscountPercent = room.DiscountPercent != 0 ? room.DiscountPercent : null ,
             };
+            booking.BookingStatus = BookingStatus.Confirmed;
             return result;
         }
     }

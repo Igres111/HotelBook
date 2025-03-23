@@ -18,6 +18,8 @@ namespace Dtos.HotelDtos
         public int RoomCapacity { get; set; }
         public decimal Price { get; set; }
         public string? Description { get; set; }
+        public decimal? DiscountPrice { get; set; }
+        public int? DiscountPercent { get; set; }
         public RoomType RoomType { get; set; }
     }
 }

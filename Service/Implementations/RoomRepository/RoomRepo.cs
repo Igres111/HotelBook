@@ -27,6 +27,8 @@ namespace Service.Implementations.RoomRepository
                     HotelId = el.HotelId,
                     IsBooked = el.IsBooked,
                     RoomType = el.RoomType,
+                    DiscountPercent = el.DiscountPercent,
+                    DiscountPrice = el.DiscountPrice
                 })
                 .ToListAsync();
             return allRooms;
@@ -50,7 +52,9 @@ namespace Service.Implementations.RoomRepository
                     HotelId = room.HotelId,
                     IsBooked = room.IsBooked,
                     RoomType = room.RoomType,
-                    CreatedAt = DateTime.UtcNow
+                    CreatedAt = DateTime.UtcNow,
+                    DiscountPercent = room.DiscountPercent,
+                    DiscountPrice = room.DiscountPrice
                 };
                 hotelExists.Rooms.Add(newRoom);
                 await _context.Rooms.AddAsync(newRoom);
@@ -83,6 +87,8 @@ namespace Service.Implementations.RoomRepository
             roomToUpdate.IsBooked = room.IsBooked ?? roomToUpdate.IsBooked;
             roomToUpdate.RoomType = room.RoomType ?? roomToUpdate.RoomType;
             roomToUpdate.RoomCapacity = room.RoomCapacity ?? roomToUpdate.RoomCapacity;
+            roomToUpdate.DiscountPrice = room.DiscountPrice ?? roomToUpdate.DiscountPrice;
+            roomToUpdate.DiscountPercent = room.DiscountPercent;
             await _context.SaveChangesAsync();
         }
     }
