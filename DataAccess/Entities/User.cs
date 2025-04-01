@@ -18,5 +18,6 @@ namespace DataAccess.Entities
         public string? AboutMe { get; set; } = string.Empty;
         public string Role { get; set; } = string.Empty;
         public List<Booking> Bookings { get; set; }
+        public List<RefreshToken> RefreshTokens { get; set; }
     }
 }
