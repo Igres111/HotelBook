@@ -16,12 +16,10 @@ namespace Service.AuthToken
     {
         public readonly AppDbContext _context;
         public readonly IConfiguration _configuration;
-        private readonly HttpClient _httpClient;
         public TokenLogic(AppDbContext context, IConfiguration configuration, HttpClient httpClient)
         {
             _context = context;
             _configuration = configuration;
-            _httpClient = httpClient;
         }
         public string CreateAccessToken(User user)
         {
@@ -82,24 +80,6 @@ namespace Service.AuthToken
             _context.RefreshTokens.Remove(refreshToken);
             await _context.SaveChangesAsync();
             return newAccessToken;
-        }
-        public async Task CallExternalApi(string accessToken)
-        {
-
-            var apiUrl = "https://yourapi.com/endpoint"; // Replace with your actual API URL
-
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-            //var response = await _httpClient.GetAsync(apiUrl);
-            //if (response.IsSuccessStatusCode)
-            //{
-            //    var responseData = await response.Content.ReadAsStringAsync();
-            //    return Ok(responseData);
-            //}
-            //else
-            //{
-            //    return StatusCode((int)response.StatusCode, response.ReasonPhrase);
-            //}
         }
     }
 }
