@@ -2,6 +2,7 @@ using DataAccess.Context;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Service.AuthToken;
 using Service.Implementations.BookingRepository;
 using Service.Implementations.HotelRepository;
 using Service.Implementations.RoomRepository;
@@ -9,6 +10,7 @@ using Service.Implementations.UserRepository;
 using Service.Interfaces.BookingInterfaces;
 using Service.Interfaces.HotelInterfaces;
 using Service.Interfaces.RoomInterFaces;
+using Service.Interfaces.TokenInterfaces;
 using Service.Interfaces.UserInterfaces;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -37,6 +39,7 @@ builder.Services.AddScoped<IHotel, HotelRepo>();
 builder.Services.AddScoped<IRoom, RoomRepo>();
 builder.Services.AddScoped<IBooking, BookingRepo>();
 builder.Services.AddScoped<IUser, UserRepo>();
+builder.Services.AddScoped<IToken, TokenLogic>();
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -65,7 +68,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.AddAuthorization();
-
+builder.Services.AddHttpClient();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
