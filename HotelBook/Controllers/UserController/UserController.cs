@@ -45,8 +45,8 @@ namespace HotelBook.Controllers.UserController
             }
             try
             {
-                await _user.LogInUser(userInfo);
-                return Ok();
+                var result = await _user.LogInUser(userInfo);
+                return Ok(result);
             }
             catch (Exception e)
             {
@@ -64,6 +64,23 @@ namespace HotelBook.Controllers.UserController
             catch (Exception)
             {
                 return BadRequest("Invalid Token");
+            }
+        }
+        [HttpPut("Change-User-Details")]
+        public async Task<IActionResult> ChangeUser(ChangeUserDto user)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid input");
+            }
+            try
+            {
+                await _user.ChangeUser(user);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
             }
         }
     }

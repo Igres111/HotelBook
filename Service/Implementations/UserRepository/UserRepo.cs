@@ -67,5 +67,22 @@ namespace Service.Implementations.UserRepository
             await _context.SaveChangesAsync();
             return accessToken;
         }
+        public async Task ChangeUser(ChangeUserDto user)
+        {
+            var userExists = await _context.Users.FirstOrDefaultAsync(x => x.Id == user.Id);
+            if (userExists == null)
+            {
+                throw new Exception("User does not exist");
+            }
+            userExists.FirstName = user.FirstName != null ? user.FirstName : userExists.FirstName;
+            userExists.LastName = user.LastName != null ? user.LastName : userExists.LastName;
+            userExists.Email = user.Email != null ? user.Email : userExists.Email;
+            userExists.Phone = user.Phone != null ? user.Phone : userExists.Phone;
+            userExists.Address = user.Address != null ? user.Address : userExists.Address;
+            userExists.AboutMe = user.AboutMe != null ? user.AboutMe : userExists.AboutMe;
+            userExists.Role = user.Role != null ? user.Role : userExists.Role;
+            userExists.UpdatedAt = DateTime.UtcNow;
+            await _context.SaveChangesAsync();
+        }
     }
 }

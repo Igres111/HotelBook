@@ -11,5 +11,6 @@ namespace Service.Interfaces.UserInterfaces
     {
         public Task CreateUser(CreateUserDto userInfo);
         public Task<string> LogInUser(LoginUserDto userInfo);
+        public Task ChangeUser(ChangeUserDto user);
     }
 }
