@@ -1,24 +1,25 @@
-﻿using DataAccess.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static DataAccess.Enums.Enums;
 
-namespace Dtos.RoomDtos
+namespace Dtos.HotelDtos
 {
-    public class ReceiveRoomDto
+    public class ShowBookingDto
     {
-        public Guid Id { get; set; }
+        public string DestinationCity { get; set; } = string.Empty;
+        public int NumberOfGuests { get; set; }
+        public DateOnly CheckIn { get; set; }
+        public DateOnly CheckOut { get; set; }
+        public int DaysLength { get; set; }
         public string RoomNumber { get; set; } = string.Empty;
         public int RoomCapacity { get; set; }
         public decimal Price { get; set; }
         public string? Description { get; set; }
-        public bool IsBooked { get; set; }
         public decimal? DiscountPrice { get; set; }
-        public int DiscountPercent { get; set; }
-        public Guid HotelId { get; set; }
+        public int? DiscountPercent { get; set; }
         public RoomType RoomType { get; set; }
     }
 }

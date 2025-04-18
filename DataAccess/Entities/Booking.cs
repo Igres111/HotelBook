@@ -12,8 +12,8 @@ namespace DataAccess.Entities
         public string GuestEmail { get; set; } = string.Empty;
         public string GuestPhone { get; set; } = string.Empty;
         public int NumberOfGuests { get; set; }
-        public DateTime CheckIn { get; set; }
-        public DateTime CheckOut { get; set; }
+        public DateOnly CheckIn { get; set; }
+        public DateOnly CheckOut { get; set; }
         public Guid? RoomId { get; set; }
         public Room? Room { get; set; }
         public BookingStatus BookingStatus { get; set; }

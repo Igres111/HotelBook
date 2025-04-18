@@ -11,7 +11,7 @@ namespace Dtos.BookingDtos
         public int NumberOfGuests { get; set; }
         public string DestinationCountry { get; set; } = string.Empty;
         public string DestinationCity { get; set; } = string.Empty;
-        public DateTime CheckIn { get; set; }
-        public DateTime CheckOut { get; set; }
+        public DateOnly CheckIn { get; set; }
+        public DateOnly CheckOut { get; set; }
     }
 }

@@ -4,7 +4,6 @@ using DataAccess.Enums;
 using Dtos.HotelDtos;
 using Microsoft.EntityFrameworkCore;
 using Service.Interfaces.HotelInterfaces;
-using static DataAccess.Enums.EnumBookingStatus;
 
 
 namespace Service.Implementations.HotelRepository
@@ -31,7 +30,9 @@ namespace Service.Implementations.HotelRepository
                     Phone = el.Phone,
                     Email = el.Email,
                     HotelImage = el.HotelImage,
-                    Rating = el.Rating
+                    Rating = el.Rating,
+                    FreeCancellation = el.FreeCancellation,
+                    NoPrepayment = el.NoPrepayment
                 }).ToListAsync();
             return hotels;
         }
@@ -50,7 +51,9 @@ namespace Service.Implementations.HotelRepository
                     Phone = x.Phone,
                     Email = x.Email,
                     HotelImage = x.HotelImage,
-                    Rating = x.Rating
+                    Rating = x.Rating,
+                    FreeCancellation = x.FreeCancellation,
+                    NoPrepayment = x.NoPrepayment
                 }).FirstOrDefaultAsync();
             if (hotel == null)
             {
@@ -83,7 +86,9 @@ namespace Service.Implementations.HotelRepository
                 Phone = hotel.Phone,
                 Email = hotel.Email,
                 HotelImage = hotel.HotelImage,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                FreeCancellation = hotel.FreeCancellation,
+                NoPrepayment = hotel.NoPrepayment
             };
             await _context.Hotels.AddAsync(newHotel);
             await _context.SaveChangesAsync();
@@ -103,6 +108,8 @@ namespace Service.Implementations.HotelRepository
             hotelToUpdate.Phone = !string.IsNullOrEmpty(hotel.Phone) ? hotel.Phone : hotelToUpdate.Phone;
             hotelToUpdate.Email = !string.IsNullOrEmpty(hotel.Email) ? hotel.Email : hotelToUpdate.Email;
             hotelToUpdate.HotelImage = !string.IsNullOrEmpty(hotel.HotelImage) ? hotel.HotelImage : hotelToUpdate.HotelImage;
+            hotelToUpdate.FreeCancellation = hotel.FreeCancellation ?? hotelToUpdate.FreeCancellation;
+            hotelToUpdate.NoPrepayment = hotel.NoPrepayment ?? hotelToUpdate.NoPrepayment;
             hotelToUpdate.UpdatedAt = DateTime.UtcNow;
             await _context.SaveChangesAsync();
         }
@@ -129,14 +136,19 @@ namespace Service.Implementations.HotelRepository
        .Where(hotel =>
            hotel.Delete == null &&
            hotel.City.Contains(booking.DestinationCity) &&
-           hotel.Country.Contains(booking.DestinationCountry) &&
+           hotel.Country.Contains(booking.DestinationCountry) && 
            hotel.Rooms.Any(room =>
-               room.IsBooked == false &&
-               room.RoomCapacity >= booking.NumberOfGuests &&
-               room.Bookings.All(b =>
-                   booking.CheckOut >= b.CheckIn && booking.CheckIn <= b.CheckOut && b.BookingStatus != EnumBookingStatus.BookingStatus.Confirmed
-               )
-           )
+           room.IsBooked == false &&
+           room.Delete == null &&
+           hotel.Rooms.Any(room =>
+            room.IsBooked == false &&
+            room.Delete == null &&
+            room.Bookings.All(b =>
+                b.BookingStatus != EnumBookingStatus.BookingStatus.Confirmed ||
+                b.CheckOut <= booking.CheckIn || b.CheckIn >= booking.CheckOut
+            )
+        )
+    )
        ).Select(el => new ReceiveHotelDto()
        {
            Id = el.Id,
@@ -148,7 +160,9 @@ namespace Service.Implementations.HotelRepository
            Phone = el.Phone,
            Email = el.Email,
            HotelImage = el.HotelImage,
-           Rating = el.Rating
+           Rating = el.Rating,
+           FreeCancellation = el.FreeCancellation,
+           NoPrepayment = el.NoPrepayment
        })
        .ToListAsync();
             if (filteredHotels == null)
@@ -156,11 +170,11 @@ namespace Service.Implementations.HotelRepository
                 throw new Exception("No hotels found");
             }
             return filteredHotels;
-    }
+        }
         public async Task<List<Hotel>> GetHotelRoomsByBooking(ReceiveHotelRoomsDto id)
         {
             var booking = await _context.Bookings.FirstOrDefaultAsync(el => el.Id == id.BookingId);
-            if(booking == null)
+            if (booking == null)
             {
                 throw new Exception("Booking not found");
             }
@@ -172,3 +186,4 @@ namespace Service.Implementations.HotelRepository
         }
     }
 }
+

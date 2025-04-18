@@ -1,4 +1,5 @@
 ﻿using Dtos.BookingDtos;
+using Dtos.HotelDtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,7 @@ namespace Service.Interfaces.BookingInterfaces
     {
         public Task<Guid> CreateBooking(CreateSearchBookingDto info);
         public Task<List<ReceiveBookingDto>> GetBookingByDest(string destination);
+        public Task FulfillBooking(FulfillBookingDto info);
+        public Task<ShowBookingDto> ShowBooking(Guid bookingId);
     }
 }

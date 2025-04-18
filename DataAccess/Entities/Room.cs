@@ -8,6 +8,8 @@ namespace DataAccess.Entities
         public string RoomNumber { get; set; } = string.Empty;
         public int RoomCapacity { get; set; }
         public decimal Price { get; set; }
+        public decimal? DiscountPrice { get; set; }
+        public int DiscountPercent { get; set; }
         public string? Description { get; set; }
         public bool IsBooked { get; set; } = false;
         public Hotel Hotel { get; set; }

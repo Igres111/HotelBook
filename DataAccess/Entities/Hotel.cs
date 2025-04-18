@@ -18,6 +18,8 @@ namespace DataAccess.Entities
         public string Email { get; set; } = string.Empty;
         public string HotelImage { get; set; } = string.Empty;
         public int Rating { get; set; }
+        public bool FreeCancellation { get; set; }
+        public bool NoPrepayment { get; set; }
         public List<Room> Rooms { get; set; } = new List<Room>();
     }
 }
