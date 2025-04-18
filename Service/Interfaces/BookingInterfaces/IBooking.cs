@@ -9,7 +9,7 @@ namespace Service.Interfaces.BookingInterfaces
 {
     public interface IBooking
     {
-        public Task CreateBooking(CreateSearchBookingDto info);
+        public Task<Guid> CreateBooking(CreateSearchBookingDto info);
         public Task<List<ReceiveBookingDto>> GetBookingByDest(string destination);
     }
 }

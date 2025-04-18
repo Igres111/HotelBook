@@ -23,8 +23,8 @@ namespace HotelBook.Controllers.BookingController
             }
             try
             {
-                await _methods.CreateBooking(info);
-                return Ok();
+                var resultId = await _methods.CreateBooking(info);
+                return Ok(resultId);
             }
             catch (Exception)
             {

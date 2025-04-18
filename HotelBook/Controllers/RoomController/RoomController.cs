@@ -58,5 +58,22 @@ namespace HotelBook.Controllers.RoomController
                 return BadRequest(ex.Message);
             }
         }
-    }
+        [HttpPut("Update-Room")]
+        public async Task<IActionResult> UpdateRoom(UpdateRoomDto room)
+        {
+            if (!ModelState.IsValid)
+            {
+                throw new Exception("Invalid data");
+            }
+            try
+            {
+                await _methods.UpdateRoom(room);
+                return Ok("Room Updated");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        }
 }

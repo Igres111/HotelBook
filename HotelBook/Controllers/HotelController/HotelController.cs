@@ -92,5 +92,31 @@ namespace HotelBook.Controllers.HotelControllers
                 return NotFound("Hotel not found");
             }
         }
+        [HttpGet("GetHotels-By-Booking")]
+        public async Task<IActionResult> GetHotelsByBooking(Guid id)
+        {
+            try
+            {
+                var hotels = await _methods.FilterHotelsByBooking(id);
+                return Ok(hotels);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+        [HttpPost("GetHotel-Rooms-By-Booking")]
+        public async Task<IActionResult> ReceiveHotelRoomsById(ReceiveHotelRoomsDto id)
+        {
+            try
+            {
+                var hotels = await _methods.GetHotelRoomsByBooking(id);
+                return Ok(hotels);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
     }
 }
