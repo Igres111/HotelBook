@@ -1,0 +1,16 @@
+﻿@using AdminPanel.Models
+@model IEnumerable<HotelViewModel>
+<h1>Hotels</h1>
+<div>
+	@foreach (var hotel in Model)
+	{
+		<div>
+			<h2>@hotel.Name</h2>
+			<p>@hotel.Address</p>
+			<p>Price: @hotel.City</p>
+			<p>Location: @hotel.Country</p>
+			<a href="@Url.Action("Edit", "Hotels", new { id = hotel.Id })">Edit</a>
+			<a href="@Url.Action("Delete", "Hotels", new { id = hotel.Id })">Delete</a>
+		</div>
+	}
+</div>
