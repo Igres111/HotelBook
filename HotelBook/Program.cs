@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Service.AuthToken;
+using Service.Helpers.CurrencyExchange;
 using Service.Implementations.BookingRepository;
 using Service.Implementations.HotelRepository;
 using Service.Implementations.RoomRepository;
@@ -66,6 +67,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = true,
         };
     });
+
+builder.Services.AddHttpClient<CurrencyExchangeService>();
 
 builder.Services.AddAuthorization();
 builder.Services.AddHttpClient();
